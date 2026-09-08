@@ -8,11 +8,15 @@
 <style>
 *{box-sizing:border-box}
 
+html{scroll-behavior:smooth}
 body{
     margin:0;
     font-family:Arial,sans-serif;
     background:#eaf2ff;
     color:#1e293b;
+    min-height:100vh;
+    overflow-x:hidden;
+    overflow-y:auto;
 }
 
 /* ================= HEADER ================= */
@@ -690,24 +694,42 @@ textarea:focus{
 
 /* ================= LOGIN ================= */
 
+/* ================= LOGIN ================= */
+
 .auth-overlay{
     position:fixed;
     inset:0;
+    width:100%;
+    height:100%;
+    height:100dvh;
     background:#eaf2ff;
-    z-index:5000;
+    z-index:99999;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:20px;
+    padding:12px;
+    box-sizing:border-box;
+    overflow-y:auto;
+    overflow-x:hidden;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
 }
 
 .auth-box{
+    max-height:calc(100vh - 24px);
+    max-height:calc(100dvh - 24px);
+    overflow-y:auto;
+    overflow-x:hidden;
     background:white;
     width:100%;
     max-width:470px;
+    flex:0 1 auto;
     padding:35px;
     border-radius:18px;
     box-shadow:0 15px 40px rgba(0,0,0,.18);
+    box-sizing:border-box;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
 }
 
 .auth-logo{
@@ -804,8 +826,36 @@ footer{
         padding:20px;
     }
 
+    .auth-overlay{
+        align-items:flex-start;
+        justify-content:center;
+        padding:10px;
+    }
+
     .auth-box{
-        padding:25px;
+        width:100%;
+        max-width:470px;
+        max-height:calc(100vh - 20px);
+        max-height:calc(100dvh - 20px);
+        padding:24px 18px;
+        margin:auto 0;
+        border-radius:16px;
+    }
+
+    .auth-logo{
+        font-size:34px;
+    }
+
+    .auth-subtitle{
+        font-size:16px;
+        line-height:1.4;
+    }
+
+    .auth-form input,
+    .auth-form select,
+    .auth-form button{
+        min-height:46px;
+        font-size:16px;
     }
 }
 </style>
@@ -843,12 +893,13 @@ Register
 
 <form id="loginForm" class="auth-form" onsubmit="loginUser(event)">
 
-<label>Username</label>
+<label>Email Address</label>
 <input
-type="text"
-id="loginUsername"
+type="email"
+id="loginEmail"
 class="input"
-placeholder="Enter your username"
+placeholder="Enter your CrimWise email"
+autocomplete="email"
 required
 >
 
@@ -901,6 +952,10 @@ class="input"
 placeholder="Create a username"
 required
 >
+
+<p class="auth-note" style="margin-top:6px">
+No email field is required during registration. CrimWise will create your login email automatically.
+</p>
 
 <label>Password</label>
 <input
@@ -957,8 +1012,8 @@ required
 </button>
 
 <p class="auth-note">
-Your account information is stored locally in this browser.
-This version is intended for a local/student learning application.
+Your account is connected to CrimWise online through Firebase.
+Your CrimWise login email is generated from your username during registration.
 </p>
 
 </form>
@@ -1735,6 +1790,16 @@ Your registered student information.
 </p>
 
 
+<div class="profile-picture-wrap" style="text-align:center;margin-bottom:22px">
+<img id="profilePicturePreview" alt="Profile picture" style="display:none;width:120px;height:120px;object-fit:cover;border-radius:50%;border:4px solid #dbeafe;margin:auto">
+<div style="margin-top:12px">
+<label for="profilePictureInput" class="button-like" style="display:inline-block;background:#2563eb;color:white;padding:11px 16px;border-radius:8px;cursor:pointer">📷 Choose Profile Picture</label>
+<input id="profilePictureInput" type="file" accept="image/*" style="display:none">
+<button type="button" class="close-btn" style="margin-top:8px" onclick="removeProfilePicture()">Remove Picture</button>
+</div>
+<p style="color:#64748b;font-size:13px;margin-bottom:0">Profile picture is saved on this device.</p>
+</div>
+
 <div class="profile-form">
 
 <div class="profile-row">
@@ -2129,322 +2194,67 @@ Created for Criminology Students
 <script>
 
 /* =========================================================
-   AUTH SYSTEM
+   ONLINE AUTH SYSTEM — FIREBASE
 ========================================================= */
 
-function getUsers(){
-
-    return JSON.parse(
-        localStorage.getItem("crimwiseUsers") || "[]"
-    );
-
-}
-
-
-function saveUsers(users){
-
-    localStorage.setItem(
-        "crimwiseUsers",
-        JSON.stringify(users)
-    );
-
-}
-
-
 function showAuthForm(type){
-
     const loginForm=document.getElementById("loginForm");
     const registerForm=document.getElementById("registerForm");
-
     const loginTab=document.getElementById("loginTab");
     const registerTab=document.getElementById("registerTab");
-
     clearAuthMessages();
-
     if(type==="login"){
-
         loginForm.classList.remove("hidden");
         registerForm.classList.add("hidden");
-
         loginTab.classList.add("active");
         registerTab.classList.remove("active");
-
     }else{
-
         loginForm.classList.add("hidden");
         registerForm.classList.remove("hidden");
-
         loginTab.classList.remove("active");
         registerTab.classList.add("active");
-
     }
-
 }
-
-
 function showAuthError(message){
-
     const box=document.getElementById("authError");
-
     box.textContent=message;
     box.style.display="block";
-
 }
-
-
 function showAuthSuccess(message){
-
     const box=document.getElementById("authSuccess");
-
     box.textContent=message;
     box.style.display="block";
-
 }
-
-
 function clearAuthMessages(){
-
     document.getElementById("authError").style.display="none";
     document.getElementById("authSuccess").style.display="none";
-
 }
-
-
-function registerUser(event){
-
-    event.preventDefault();
-
-    clearAuthMessages();
-
-    const name=document.getElementById("regName").value.trim();
-    const studentNumber=document.getElementById("regStudentNumber").value.trim();
-    const username=document.getElementById("regUsername").value.trim();
-    const password=document.getElementById("regPassword").value;
-    const confirm=document.getElementById("regConfirmPassword").value;
-    const year=document.getElementById("regYear").value;
-    const section=document.getElementById("regSection").value.trim();
-    const school=document.getElementById("regSchool").value.trim();
-
-    if(password.length<6){
-
-        showAuthError(
-            "Password must contain at least 6 characters."
-        );
-
-        return;
-
-    }
-
-    if(password!==confirm){
-
-        showAuthError(
-            "Passwords do not match."
-        );
-
-        return;
-
-    }
-
-    const users=getUsers();
-
-    const usernameExists=users.some(
-        u=>u.username.toLowerCase()===username.toLowerCase()
-    );
-
-    if(usernameExists){
-
-        showAuthError(
-            "Username is already registered."
-        );
-
-        return;
-
-    }
-
-    const studentExists=users.some(
-        u=>u.studentNumber.toLowerCase()===studentNumber.toLowerCase()
-    );
-
-    if(studentExists){
-
-        showAuthError(
-            "Student number is already registered."
-        );
-
-        return;
-
-    }
-
-    const newUser={
-        name,
-        studentNumber,
-        username,
-        password,
-        year,
-        section,
-        school,
-        createdAt:new Date().toISOString()
-    };
-
-    users.push(newUser);
-
-    saveUsers(users);
-
-    showAuthSuccess(
-        "Registration successful! You may now login."
-    );
-
-    document.getElementById("registerForm").reset();
-
-    setTimeout(()=>{
-        showAuthForm("login");
-        document.getElementById("loginUsername").value=username;
-    },800);
-
+function getCurrentUser(){
+    return window.crimwiseCurrentUser||null;
 }
-
-
-function loginUser(event){
-
-    event.preventDefault();
-
-    clearAuthMessages();
-
-    const username=document
-        .getElementById("loginUsername")
-        .value
-        .trim();
-
-    const password=document
-        .getElementById("loginPassword")
-        .value;
-
-    const users=getUsers();
-
-    const user=users.find(
-        u=>
-        u.username.toLowerCase()===username.toLowerCase()
-        &&
-        u.password===password
-    );
-
-    if(!user){
-
-        showAuthError(
-            "Incorrect username or password."
-        );
-
-        return;
-
-    }
-
-    localStorage.setItem(
-        "crimwiseCurrentUser",
-        user.username
-    );
-
-    loadCurrentUser();
-
-    document.getElementById("authOverlay").style.display="none";
-
-}
-
-
 function loadCurrentUser(){
-
-    const current=localStorage.getItem(
-        "crimwiseCurrentUser"
-    );
-
-    if(!current){
-
-        document.getElementById("authOverlay").style.display="flex";
-
-        return false;
-
-    }
-
-    const users=getUsers();
-
-    const user=users.find(
-        u=>u.username===current
-    );
-
+    const user=getCurrentUser();
+    const overlay=document.getElementById("authOverlay");
     if(!user){
-
-        localStorage.removeItem(
-            "crimwiseCurrentUser"
-        );
-
-        document.getElementById("authOverlay").style.display="flex";
-
+        overlay.style.display="flex";
         return false;
-
     }
-
-    document.getElementById("menuUserName").textContent=user.name;
-
-    document.getElementById("menuStudentNumber").textContent=
-        user.studentNumber;
-
-    document.getElementById("welcomeMessage").textContent=
-        `Welcome back, ${user.name}! Choose a tool below to start learning.`;
-
-    document.getElementById("settingsUsername").textContent=
-        user.username;
-
-    document.getElementById("settingsStudentNumber").textContent=
-        user.studentNumber;
-
-    loadProfile();
-
+    overlay.style.display="none";
+    document.getElementById("menuUserName").textContent=user.name||"Student";
+    document.getElementById("menuStudentNumber").textContent=user.studentNumber||"Student Number";
+    document.getElementById("welcomeMessage").textContent=`Welcome back, ${user.name||"Student"}! Choose a tool below to start learning.`;
+    document.getElementById("settingsUsername").textContent=user.username||"-";
+    document.getElementById("settingsStudentNumber").textContent=user.studentNumber||"-";
+    if(typeof loadProfile === "function") loadProfile();
     return true;
-
 }
-
-
-function logoutUser(){
-
-    const answer=confirm(
-        "Are you sure you want to log out?"
-    );
-
-    if(!answer)return;
-
-    localStorage.removeItem(
-        "crimwiseCurrentUser"
-    );
-
-    document.querySelectorAll(".section")
-        .forEach(s=>s.style.display="none");
-
-    document.getElementById("authOverlay").style.display="flex";
-
-    document.getElementById("loginForm").reset();
-
-    showAuthForm("login");
-
-}
-
-
 function clearLocalData(){
-
-    const answer=confirm(
-        "This will delete your CrimWise accounts and local data from this browser. Continue?"
-    );
-
+    const answer=confirm("This will remove only locally saved CrimWise data such as your profile picture from this browser. Your online Firebase account will not be deleted. Continue?");
     if(!answer)return;
-
-    localStorage.clear();
-
-    alert(
-        "Local CrimWise data has been cleared."
-    );
-
+    localStorage.removeItem("crimwiseProfilePicture");
+    alert("Local CrimWise data cleared.");
     location.reload();
-
 }
-
 
 /* =========================================================
    MENU
@@ -7635,206 +7445,80 @@ function searchLaws(){
    PROFILE
 ========================================================= */
 
-function getCurrentUser(){
-
-    const username=
-        localStorage.getItem(
-            "crimwiseCurrentUser"
-        );
-
-    if(!username)return null;
-
-    return getUsers().find(
-        u=>u.username===username
-    );
-
-}
-
-
-function saveProfile(){
-
-    const current=
-        getCurrentUser();
-
-    if(!current){
-
-        alert("No logged-in user.");
-
-        return;
-
+async function saveProfile(){
+    const current=getCurrentUser();
+    if(!current){alert("No logged-in user.");return;}
+    const name=document.getElementById("studentName").value.trim();
+    const studentNumber=document.getElementById("studentID").value.trim();
+    const year=document.getElementById("yearLevel").value;
+    const section=document.getElementById("studentSection").value.trim();
+    const school=document.getElementById("schoolName").value.trim();
+    if(!name){alert("Please enter your full name.");return;}
+    if(!window.crimwiseFirebase){alert("Firebase is still loading. Please try again.");return;}
+    try{
+        const {doc,updateDoc}=window.crimwiseFirebase.firestoreFns;
+        await updateDoc(doc(window.crimwiseFirebase.db,"users",current.uid),{name,studentNumber,year,section,school});
+        window.crimwiseCurrentUser={...current,name,studentNumber,year,section,school};
+        loadCurrentUser();
+        displayProfileResult(window.crimwiseCurrentUser);
+        alert("Profile saved successfully online.");
+    }catch(error){
+        console.error(error);
+        alert("Unable to save profile online. Please check your internet connection and Firestore rules.");
     }
-
-
-    const name=
-        document
-        .getElementById("studentName")
-        .value
-        .trim();
-
-    const studentNumber=
-        document
-        .getElementById("studentID")
-        .value
-        .trim();
-
-    const year=
-        document
-        .getElementById("yearLevel")
-        .value;
-
-    const section=
-        document
-        .getElementById("studentSection")
-        .value
-        .trim();
-
-    const school=
-        document
-        .getElementById("schoolName")
-        .value
-        .trim();
-
-
-    if(!name){
-
-        alert(
-            "Please enter your full name."
-        );
-
-        return;
-
-    }
-
-
-    const users=getUsers();
-
-    const index=
-        users.findIndex(
-            u=>u.username===current.username
-        );
-
-    users[index].name=name;
-    users[index].studentNumber=studentNumber;
-    users[index].year=year;
-    users[index].section=section;
-    users[index].school=school;
-
-    saveUsers(users);
-
-    loadCurrentUser();
-
-    displayProfileResult(users[index]);
-
-    alert(
-        "Profile saved successfully."
-    );
-
 }
-
-
 function displayProfileResult(user){
-
-    const result=
-        document.getElementById(
-            "profileResult"
-        );
-
+    const result=document.getElementById("profileResult");
     result.style.display="block";
-
     result.innerHTML=`
-
-        <h3>
-            👤 My Student Profile
-        </h3>
-
-        <div class="profile-line">
-            <b>Name:</b>
-            ${escapeHTML(user.name)}
-        </div>
-
-        <div class="profile-line">
-            <b>Student Number:</b>
-            ${escapeHTML(
-                user.studentNumber ||
-                "Not provided"
-            )}
-        </div>
-
-        <div class="profile-line">
-            <b>Username:</b>
-            ${escapeHTML(user.username)}
-        </div>
-
-        <div class="profile-line">
-            <b>Year Level:</b>
-            ${escapeHTML(
-                user.year ||
-                "Not provided"
-            )}
-        </div>
-
-        <div class="profile-line">
-            <b>Section:</b>
-            ${escapeHTML(
-                user.section ||
-                "Not provided"
-            )}
-        </div>
-
-        <div class="profile-line">
-            <b>School:</b>
-            ${escapeHTML(
-                user.school ||
-                "Not provided"
-            )}
-        </div>
-
+        <h3>👤 My Student Profile</h3>
+        <div class="profile-line"><b>Name:</b> ${escapeHTML(user.name||"Not provided")}</div>
+        <div class="profile-line"><b>Student Number:</b> ${escapeHTML(user.studentNumber||"Not provided")}</div>
+        <div class="profile-line"><b>Username:</b> ${escapeHTML(user.username||"Not provided")}</div>
+        <div class="profile-line"><b>CrimWise Email:</b> ${escapeHTML(user.email||"Not provided")}</div>
+        <div class="profile-line"><b>Year Level:</b> ${escapeHTML(user.year||"Not provided")}</div>
+        <div class="profile-line"><b>Section:</b> ${escapeHTML(user.section||"Not provided")}</div>
+        <div class="profile-line"><b>School:</b> ${escapeHTML(user.school||"Not provided")}</div>
     `;
-
 }
-
-
 function loadProfile(){
-
-    const user=
-        getCurrentUser();
-
+    const user=getCurrentUser();
     if(!user)return;
-
-    document
-        .getElementById("studentName")
-        .value=
-        user.name || "";
-
-    document
-        .getElementById("studentID")
-        .value=
-        user.studentNumber || "";
-
-    document
-        .getElementById("profileUsername")
-        .value=
-        user.username || "";
-
-    document
-        .getElementById("yearLevel")
-        .value=
-        user.year || "";
-
-    document
-        .getElementById("studentSection")
-        .value=
-        user.section || "";
-
-    document
-        .getElementById("schoolName")
-        .value=
-        user.school || "";
-
+    document.getElementById("studentName").value=user.name||"";
+    document.getElementById("studentID").value=user.studentNumber||"";
+    document.getElementById("profileUsername").value=user.username||"";
+    document.getElementById("yearLevel").value=user.year||"";
+    document.getElementById("studentSection").value=user.section||"";
+    document.getElementById("schoolName").value=user.school||"";
     displayProfileResult(user);
-
+    loadProfilePicture();
 }
-
+function loadProfilePicture(){
+    const saved=localStorage.getItem("crimwiseProfilePicture");
+    const img=document.getElementById("profilePicturePreview");
+    if(saved&&img){img.src=saved;img.style.display="block";}
+}
+function handleProfilePicture(event){
+    const file=event.target.files&&event.target.files[0];
+    if(!file)return;
+    if(!file.type.startsWith("image/")){alert("Please select an image file.");return;}
+    if(file.size>2*1024*1024){alert("Please choose an image smaller than 2 MB.");return;}
+    const reader=new FileReader();
+    reader.onload=()=>{
+        localStorage.setItem("crimwiseProfilePicture",reader.result);
+        const img=document.getElementById("profilePicturePreview");
+        img.src=reader.result;
+        img.style.display="block";
+    };
+    reader.readAsDataURL(file);
+}
+function removeProfilePicture(){
+    localStorage.removeItem("crimwiseProfilePicture");
+    const img=document.getElementById("profilePicturePreview");
+    const input=document.getElementById("profilePictureInput");
+    if(img){img.removeAttribute("src");img.style.display="none";}
+    if(input)input.value="";
+}
 
 /* =========================================================
    SECURITY / HTML HELPERS
@@ -7873,8 +7557,182 @@ function escapeJS(str){
 
 renderSubjects();
 
-loadCurrentUser();
+const profilePictureInput=document.getElementById("profilePictureInput");
+if(profilePictureInput) profilePictureInput.addEventListener("change",handleProfilePicture);
 
+// Firebase controls the actual login state.
+
+
+</script>
+
+
+
+<!-- =========================================================
+     FIREBASE ONLINE AUTHENTICATION + CLOUD FIRESTORE
+     Registration has no visible email field. CrimWise generates
+     a Firebase login email from the chosen username.
+========================================================= -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+const firebaseConfig={
+    apiKey:"AIzaSyDfwTatuQDAt_GC1jY4IKB1kAuPxryuM90",
+    authDomain:"crimwise-24ba1.firebaseapp.com",
+    projectId:"crimwise-24ba1",
+    storageBucket:"crimwise-24ba1.firebasestorage.app",
+    messagingSenderId:"312824202902",
+    appId:"1:312824202902:web:2eadc6dbefce5981c764b7"
+};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+window.crimwiseFirebase={app,auth,db,firestoreFns:{doc,updateDoc}};
+
+function friendlyAuthError(error){
+    const code=error?.code||"";
+    const messages={
+        "auth/email-already-in-use":"This CrimWise login email is already registered. Please choose another username.",
+        "auth/invalid-email":"The generated CrimWise email is invalid. Please choose another username.",
+        "auth/weak-password":"Password is too weak. Use at least 6 characters.",
+        "auth/invalid-credential":"Incorrect email or password.",
+        "auth/user-not-found":"Account not found. Please check your CrimWise email.",
+        "auth/wrong-password":"Incorrect password.",
+        "auth/network-request-failed":"Network error. Check your internet connection and try again.",
+        "permission-denied":"Firestore permission denied. Configure your Firestore Security Rules.",
+        "failed-precondition":"Firestore is not ready. Create the Firestore database first."
+    };
+    return messages[code]||error?.message||"Something went wrong. Please try again.";
+}
+function generatedEmail(username){
+    return username.trim().toLowerCase()+"@crimwise.app";
+}
+async function findLoginIndex(email){
+    const snap=await getDoc(doc(db,"loginIndex",email.toLowerCase()));
+    return snap.exists()?snap.data():null;
+}
+async function getProfile(uid){
+    const snap=await getDoc(doc(db,"users",uid));
+    return snap.exists()?{uid,...snap.data()}:null;
+}
+
+window.registerUser=async function(event){
+    if(event)event.preventDefault();
+    clearAuthMessages();
+    const name=document.getElementById("regName").value.trim();
+    const studentNumber=document.getElementById("regStudentNumber").value.trim();
+    const username=document.getElementById("regUsername").value.trim().toLowerCase();
+    const password=document.getElementById("regPassword").value;
+    const confirm=document.getElementById("regConfirmPassword").value;
+    const year=document.getElementById("regYear").value;
+    const section=document.getElementById("regSection").value.trim();
+    const school=document.getElementById("regSchool").value.trim();
+    if(!name||!studentNumber||!username||!password||!confirm||!year||!section||!school){showAuthError("Please complete all registration fields.");return;}
+    if(password.length<6){showAuthError("Password must contain at least 6 characters.");return;}
+    if(password!==confirm){showAuthError("Passwords do not match.");return;}
+    if(!/^[a-z0-9._-]{3,30}$/.test(username)){showAuthError("Username must be 3–30 characters and use only letters, numbers, dot, underscore or dash.");return;}
+    const email=generatedEmail(username);
+    let credential=null;
+    try{
+        showAuthSuccess("Creating your CrimWise account online...");
+        credential=await createUserWithEmailAndPassword(auth,email,password);
+        const uid=credential.user.uid;
+        const usernameRef=doc(db,"usernameIndex",username);
+        const emailRef=doc(db,"loginIndex",email);
+        const studentKey=studentNumber.replace(/[^A-Za-z0-9_-]/g,"_").toLowerCase();
+        const studentRef=doc(db,"studentIndex",studentKey);
+        const userRef=doc(db,"users",uid);
+        await runTransaction(db,async tx=>{
+            const [uSnap,eSnap,sSnap]=await Promise.all([tx.get(usernameRef),tx.get(emailRef),tx.get(studentRef)]);
+            if(uSnap.exists())throw new Error("USERNAME_EXISTS");
+            if(eSnap.exists())throw new Error("EMAIL_EXISTS");
+            if(sSnap.exists())throw new Error("STUDENT_EXISTS");
+            tx.set(usernameRef,{uid,createdAt:serverTimestamp()});
+            tx.set(emailRef,{uid,username,createdAt:serverTimestamp()});
+            tx.set(studentRef,{uid,createdAt:serverTimestamp()});
+            tx.set(userRef,{name,studentNumber,username,email,year,section,school,createdAt:serverTimestamp()});
+        });
+        await signOut(auth);
+        document.getElementById("registerForm").reset();
+        showAuthSuccess("Registration successful! Your CrimWise login email is: "+email+". Use this email and your password to log in.");
+        document.getElementById("loginEmail").value=email;
+        document.getElementById("loginPassword").value="";
+        setTimeout(()=>showAuthForm("login"),1200);
+    }catch(error){
+        if(credential?.user){try{await deleteUser(credential.user);}catch(_e){}}
+        if(error.message==="USERNAME_EXISTS")showAuthError("Username is already registered.");
+        else if(error.message==="EMAIL_EXISTS")showAuthError("That CrimWise login email is already registered.");
+        else if(error.message==="STUDENT_EXISTS")showAuthError("Student number is already registered.");
+        else showAuthError(friendlyAuthError(error));
+    }
+};
+
+window.loginUser=async function(event){
+    if(event)event.preventDefault();
+    clearAuthMessages();
+    const email=document.getElementById("loginEmail").value.trim().toLowerCase();
+    const password=document.getElementById("loginPassword").value;
+    if(!email||!password){showAuthError("Please enter your CrimWise email and password.");return;}
+    try{
+        showAuthSuccess("Signing in securely...");
+        const index=await findLoginIndex(email);
+        if(!index?.uid){showAuthError("Account not found. Please check your CrimWise email.");return;}
+        await signInWithEmailAndPassword(auth,email,password);
+    }catch(error){showAuthError(friendlyAuthError(error));}
+};
+
+window.logoutUser=async function(){
+    const answer=confirm("Are you sure you want to log out?");
+    if(!answer)return;
+    try{await signOut(auth);}catch(error){console.error(error);}
+    window.crimwiseCurrentUser=null;
+    document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+    document.getElementById("mainMenu")?.classList.remove("show");
+    document.getElementById("loginPassword").value="";
+    document.getElementById("authOverlay").style.display="flex";
+    showAuthForm("login");
+};
+
+onAuthStateChanged(auth,async user=>{
+    if(user){
+        try{
+            const profile=await getProfile(user.uid);
+            if(!profile){showAuthError("Your account profile could not be loaded.");return;}
+            window.crimwiseCurrentUser=profile;
+            loadCurrentUser();
+        }catch(error){
+            console.error(error);
+            showAuthError(friendlyAuthError(error));
+            document.getElementById("authOverlay").style.display="flex";
+        }
+    }else{
+        window.crimwiseCurrentUser=null;
+        document.getElementById("authOverlay").style.display="flex";
+    }
+});
+</script>
+
+<script>
+(function(){
+    const overlay=document.getElementById("authOverlay");
+    if(!overlay)return;
+
+    function syncAuthLock(){
+        const visible=getComputedStyle(overlay).display !== "none";
+        document.documentElement.style.overflow=visible ? "hidden" : "";
+        document.body.style.overflow=visible ? "hidden" : "";
+        document.body.style.touchAction=visible ? "none" : "";
+        overlay.style.pointerEvents=visible ? "auto" : "none";
+    }
+
+    syncAuthLock();
+
+    new MutationObserver(syncAuthLock).observe(overlay,{
+        attributes:true,
+        attributeFilter:["style","class"]
+    });
+})();
 </script>
 
 </body>
