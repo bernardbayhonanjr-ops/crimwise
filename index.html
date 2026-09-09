@@ -1337,6 +1337,8 @@ class="subject-list"
 style="margin-top:20px"
 ></div>
 
+<div class="search-info" style="line-height:1.6">📌 <b>Expanded Reviewer:</b> Each subject now uses its full topic list as an additional study/question source. Laws, PNP ranks and police history have expanded reference entries.</div>
+
 
 <div
 id="reviewerDetail"
@@ -1368,7 +1370,8 @@ Close Reviewers
 
 <p class="description">
 Choose a subject. Questions include difficult choices,
-situational questions and application-based questions.
+situational questions, topic distinctions and application-based questions.
+The question pool is expanded and recent questions are avoided until the available pool is exhausted.
 </p>
 
 
@@ -2185,7 +2188,7 @@ Close Credits
 
 <footer>
 
-© 2026 CrimWise |
+© 2026 CrimWise v6 |
 Created for Criminology Students
 
 </footer>
@@ -2451,64 +2454,16 @@ const reviewerData={
 intro:"Criminal Investigation is a systematic process of gathering facts, information and evidence to determine what happened, identify persons involved and develop the case.",
 
 topics:[
-
-["Meaning of Criminal Investigation",
-`
-<ul>
-<li>It is a systematic process of discovering facts related to an offense.</li>
-<li>The investigator gathers, evaluates and documents information.</li>
-<li>The goal is not simply to arrest someone but to establish facts.</li>
-<li>Investigation should be conducted objectively and lawfully.</li>
-</ul>
-`],
-
-["Reactive and Proactive Investigation",
-`
-<p><b>Reactive:</b> generally begins after an offense or incident has occurred.</p>
-<p><b>Proactive:</b> focuses on preventing, detecting or developing information concerning criminal activity before or while it develops.</p>
-<ul>
-<li>Reactive investigation responds to an existing incident.</li>
-<li>Proactive investigation seeks information and preventive opportunities.</li>
-</ul>
-`],
-
-["Interview and Interrogation",
-`
-<p><b>Interview</b> is generally used to obtain information from persons who may possess relevant knowledge.</p>
-<p><b>Interrogation</b> is more focused questioning involving a person suspected of involvement in an offense.</p>
-<ul>
-<li>Questions should be purposeful.</li>
-<li>Information should be evaluated and verified.</li>
-<li>Investigators must observe legal and ethical safeguards.</li>
-</ul>
-`],
-
-["Qualities of an Investigator",
-`
-<ul>
-<li>Observant</li>
-<li>Objective</li>
-<li>Patient</li>
-<li>Analytical</li>
-<li>Resourceful</li>
-<li>Honest</li>
-<li>Thorough</li>
-<li>Good communicator</li>
-<li>Knowledgeable of investigative procedures</li>
-</ul>
-`],
-
-["Investigation and Evidence",
-`
-<p>An investigator should preserve and evaluate evidence rather than manipulate it to fit a preferred theory.</p>
-<ul>
-<li>Document investigative actions.</li>
-<li>Protect evidence integrity.</li>
-<li>Compare statements with available evidence.</li>
-<li>Avoid conclusions based solely on assumptions.</li>
-</ul>
-`]
-
+["Who is a Criminal?",`<p>The term <b>criminal</b> may be discussed from different perspectives.</p><ul><li><b>Criminological sense:</b> a person may be considered a criminal from the time he or she commits the crime, regardless of whether it has been reported.</li><li><b>Criminal justice sense:</b> viewed in relation to the process through the pillars of the criminal justice system.</li><li><b>Legal sense:</b> depends on judicial process and a finding of guilt beyond reasonable doubt.</li></ul><p><b>Exam tip:</b> Do not treat the criminological and legal meanings as identical.</p>`],
+["Meaning and Origin of Investigation",`<p><b>Investigation</b> is the act or process of careful inquiry, research, examination, or searching for facts.</p><ul><li>Commonly traced to Latin roots such as <i>investigare/vestigare</i>, associated with tracing or tracking.</li><li><i>Vestigium</i> is associated with a footprint or trace.</li><li>It is a step-by-step inquiry intended to discover and establish facts.</li></ul>`],
+["Criminal Investigation",`<p>Criminal investigation is a systematic inquiry directed toward discovering the facts of a crime, identifying and locating the offender, and developing evidence that can support the case.</p><ul><li>Gather, evaluate and document information and evidence.</li><li>It is not simply arresting a suspect.</li><li>Remain objective and avoid forcing facts to fit a preferred theory.</li></ul>`],
+["Criminal Investigation as Art and Science",`<p>Criminal investigation may be described as both <b>art and science</b>.</p><ul><li><b>Science:</b> systematic methods, professional preparation, evidence evaluation and established principles.</li><li><b>Art:</b> judgment, initiative, resourcefulness, observation and adaptability.</li></ul>`],
+["General Types of Investigation",`<ul><li><b>Formal investigation:</b> an authorized government inquiry to uncover facts and determine the truth.</li><li><b>Inquest:</b> a summary investigation used in appropriate criminal cases involving a person arrested and detained without a warrant, subject to applicable rules.</li></ul>`],
+["Reactive and Proactive Investigation",`<p><b>Reactive:</b> generally begins after an offense or incident has occurred.</p><p><b>Proactive:</b> seeks to prevent, detect, or develop information about criminal activity before or while it develops.</p>`],
+["Interview and Interrogation",`<p><b>Interview</b> generally obtains information from persons with relevant knowledge.</p><p><b>Interrogation</b> is more focused questioning involving a person suspected of involvement.</p><ul><li>Questions should be purposeful.</li><li>Information should be evaluated and corroborated when appropriate.</li><li>Legal and ethical safeguards must be observed.</li></ul>`],
+["Qualities of an Investigator",`<ul><li>Observant</li><li>Objective</li><li>Patient</li><li>Analytical</li><li>Resourceful</li><li>Honest</li><li>Thorough</li><li>Good communicator</li><li>Knowledgeable of investigative procedures</li></ul>`],
+["Investigation and Evidence",`<p>An investigator should preserve, evaluate and document evidence rather than manipulate it to support a preferred theory.</p><ul><li>Document investigative actions.</li><li>Protect evidence integrity.</li><li>Compare statements with available evidence.</li><li>Distinguish leads and allegations from established facts.</li><li>Avoid conclusions based solely on assumptions.</li></ul>`],
+["Six Cardinal Points of Investigation",`<p>A useful framework is to ask:</p><ul><li><b>What</b> offense was committed?</li><li><b>Where</b> was it committed?</li><li><b>When</b> did it occur?</li><li><b>Who</b> was involved?</li><li><b>Why</b> was it committed?</li><li><b>How</b> was it committed?</li></ul>`]
 ],
 
 remember:"Board-exam reminder: Do not confuse an investigation with simply arresting a suspect. The investigator's role is to discover and establish facts through lawful and systematic methods."
@@ -3993,62 +3948,206 @@ function openReviewer(subject){
 const bank={
 
 "CDI 1":[
-
-{
-q:"A robbery is reported at a convenience store. The investigator immediately arrests the person named by a witness without examining CCTV footage, physical evidence or other statements. Which investigative principle is most clearly violated?",
-a:"The investigator should evaluate and verify information before reaching a conclusion.",
-w:[
-"The investigator should avoid documenting the incident.",
-"The investigator should always disregard eyewitness information.",
-"The investigator should allow the suspect to decide the investigative theory."
-],
-e:"A proper investigation requires facts to be evaluated and verified. A lead or accusation should not automatically be treated as conclusive proof."
-},
-
-{
-q:"During an interview, a witness provides information that conflicts with CCTV footage. What should the investigator generally do?",
-a:"Compare and verify the conflicting information using available evidence.",
-w:[
-"Automatically believe the witness because interviews are always more reliable.",
-"Ignore the CCTV because physical evidence is never useful.",
-"Immediately accuse the witness of lying."
-],
-e:"Conflicting information should be evaluated objectively. Investigators should compare the sources and seek corroborating facts."
-},
-
-{
-q:"A police investigator is gathering information about a suspected organized criminal activity before any specific offense is reported. Which approach is most consistent with the situation?",
-a:"Proactive investigation",
-w:[
-"Reactive investigation",
-"Post-trial investigation",
-"Sentencing investigation"
-],
-e:"Proactive investigation is directed toward detecting, preventing or developing information concerning criminal activity before or while it develops."
-},
-
-{
-q:"An investigator asks a person who witnessed an incident to describe what they saw, heard and personally observed. What investigative tool is primarily being used?",
-a:"Interview",
-w:[
-"Interrogation",
-"Sentencing",
-"Adjudication"
-],
-e:"An interview is generally conducted to obtain information from a person who may have relevant knowledge."
-},
-
-{
-q:"A suspect is confronted with evidence suggesting involvement in an offense and is questioned specifically about that involvement. Which term best describes the investigative activity?",
-a:"Interrogation",
-w:[
-"Routine interview",
-"Crime prevention education",
-"Administrative inspection"
-],
-e:"Interrogation is more focused questioning directed toward a person suspected of involvement in an offense."
-}
-
+  {
+    "q": "Which description best distinguishes the criminological sense of the term criminal from the legal sense?",
+    "a": "The criminological sense may treat the person as criminal from commission of the crime, while the legal sense depends on judicial determination of guilt.",
+    "w": [
+      "Both require a final conviction before the person can be considered criminal.",
+      "Both are concerned only with whether police have already filed a report.",
+      "The legal sense begins at the first suspicion, while the criminological sense begins only after conviction."
+    ],
+    "e": "The key distinction is commission of the act versus judicial determination of guilt."
+  },
+  {
+    "q": "A person commits an offense at 9:00 p.m., but no report is made until the next morning. Under the criminological sense, when may the person be considered a criminal?",
+    "a": "From the time the crime was committed, regardless of when it was reported.",
+    "w": [
+      "Only after the police complete their investigation.",
+      "Only after the prosecutor files an information.",
+      "Only after the court renders a judgment of guilt."
+    ],
+    "e": "The criminological sense focuses on commission of the criminal act, not later reporting or conviction."
+  },
+  {
+    "q": "Which statement most accurately describes investigation in its basic sense?",
+    "a": "A careful and systematic inquiry or examination undertaken to discover facts.",
+    "w": [
+      "A process limited to arresting a suspected offender.",
+      "A judicial determination that a person is guilty.",
+      "A police activity that begins only after a confession."
+    ],
+    "e": "Investigation is an inquiry directed toward discovering and establishing facts."
+  },
+  {
+    "q": "The Latin-root explanation of investigation is most closely associated with which idea?",
+    "a": "Tracing, tracking, or following a trace toward a fact or subject of inquiry.",
+    "w": [
+      "Punishing a convicted offender after trial.",
+      "Determining the sentence imposed by a court.",
+      "Classifying police ranks according to seniority."
+    ],
+    "e": "The commonly taught etymology connects investigation with tracing or tracking."
+  },
+  {
+    "q": "An investigator refuses to accept an accusation as conclusive and compares it with CCTV, witness statements and physical evidence. What principle is demonstrated?",
+    "a": "Information and evidence should be evaluated and corroborated before a conclusion is reached.",
+    "w": [
+      "An investigator should rely on the first available theory.",
+      "An accusation automatically becomes proof when made by a witness.",
+      "Physical evidence should be ignored when a confession is available."
+    ],
+    "e": "Objective investigation requires verification rather than confirmation of a preferred theory."
+  },
+  {
+    "q": "Which situation most clearly illustrates reactive investigation?",
+    "a": "Investigators begin examining a reported robbery after the offense has already occurred.",
+    "w": [
+      "Investigators gather intelligence about a developing criminal group before a specific offense is reported.",
+      "Researchers study historical crime statistics after a case has been closed.",
+      "A court reviews an already final conviction."
+    ],
+    "e": "Reactive investigation generally responds to an existing incident or offense."
+  },
+  {
+    "q": "Which situation most clearly illustrates proactive investigation?",
+    "a": "Investigators develop lawful intelligence concerning suspected criminal activity before a specific offense is reported.",
+    "w": [
+      "Investigators process a crime scene after a burglary has been reported.",
+      "A prosecutor evaluates evidence already submitted for trial.",
+      "A court announces a judgment after trial."
+    ],
+    "e": "Proactive investigation is forward-looking and seeks to detect, prevent or develop information."
+  },
+  {
+    "q": "A person voluntarily describes what he or she saw during an incident and is not being treated as a suspect. What investigative activity is most directly described?",
+    "a": "Interview",
+    "w": [
+      "Interrogation",
+      "Arraignment",
+      "Sentencing"
+    ],
+    "e": "An interview generally obtains information from a person who may have relevant knowledge."
+  },
+  {
+    "q": "A person suspected of involvement is questioned specifically about inconsistencies and possible participation in an offense. What activity is most directly described?",
+    "a": "Interrogation",
+    "w": [
+      "Routine patrol",
+      "Arraignment",
+      "Crime prevention lecture"
+    ],
+    "e": "Interrogation is more focused questioning directed toward a person suspected of involvement."
+  },
+  {
+    "q": "Why is the distinction between interview and interrogation important to an investigator?",
+    "a": "The investigator must understand the purpose and context of questioning and observe the safeguards applicable to the situation.",
+    "w": [
+      "Every interview automatically proves the truth of every answer.",
+      "Interrogation eliminates the need to verify information.",
+      "Interviews may be conducted without regard to law or ethics."
+    ],
+    "e": "The distinction helps the investigator choose an appropriate approach while maintaining safeguards."
+  },
+  {
+    "q": "Which investigator quality is demonstrated when an investigator notices a small inconsistency between two statements that others overlooked?",
+    "a": "Observational ability",
+    "w": [
+      "Popularity among colleagues",
+      "Physical strength",
+      "Seniority alone"
+    ],
+    "e": "Observation allows the investigator to notice details and discrepancies with investigative significance."
+  },
+  {
+    "q": "An investigator has a strong personal theory but deliberately records evidence that contradicts it. Which quality is demonstrated?",
+    "a": "Objectivity",
+    "w": [
+      "Impatience",
+      "Partisanship",
+      "Speculation"
+    ],
+    "e": "Objectivity requires fairly evaluating information that challenges an initial theory."
+  },
+  {
+    "q": "Why is resourcefulness important in criminal investigation?",
+    "a": "It helps an investigator adapt lawful methods and identify practical ways to develop useful information when circumstances change.",
+    "w": [
+      "It permits disregard of procedure when a case is difficult.",
+      "It means the investigator may invent evidence to complete a case.",
+      "It allows conclusions to be based solely on intuition."
+    ],
+    "e": "Resourcefulness helps investigators adapt while respecting lawful procedures."
+  },
+  {
+    "q": "Which set correctly represents the six cardinal investigative questions?",
+    "a": "What, Where, When, Who, Why, and How",
+    "w": [
+      "Who, Which, Whose, When, Whether, and Why",
+      "What, Which, Where, Whose, Whom, and When",
+      "How, How much, How many, Where, Which, and Whose"
+    ],
+    "e": "The six questions organize the basic factual dimensions of an investigation."
+  },
+  {
+    "q": "A team knows who the suspected offender is but has not established how the offense was committed. Which cardinal question remains incomplete?",
+    "a": "How",
+    "w": [
+      "Who",
+      "Where",
+      "When"
+    ],
+    "e": "The How question concerns the manner or method by which the offense was committed."
+  },
+  {
+    "q": "Which statement best describes criminal investigation as both an art and a science?",
+    "a": "It combines systematic methods and evidence-based inquiry with professional judgment, initiative and adaptability.",
+    "w": [
+      "It is purely intuitive and does not require method.",
+      "It is purely mechanical and never requires judgment.",
+      "It depends only on witness testimony and not on physical evidence."
+    ],
+    "e": "Criminal investigation uses disciplined methods while requiring judgment, initiative and resourcefulness."
+  },
+  {
+    "q": "A government agency conducts an authorized inquiry to uncover facts and determine the truth concerning an official matter. What type is most consistent?",
+    "a": "Formal investigation",
+    "w": [
+      "Inquest in every circumstance",
+      "Private speculation",
+      "Judicial sentencing"
+    ],
+    "e": "Formal investigation is an authorized inquiry conducted to uncover facts and determine truth."
+  },
+  {
+    "q": "Which statement best distinguishes a criminal investigation from merely making an arrest?",
+    "a": "Investigation seeks to establish facts, identify and locate the offender, and develop evidence that can support the case.",
+    "w": [
+      "An arrest alone establishes every element of the offense.",
+      "An arrest eliminates the need for evidence evaluation.",
+      "An arrest automatically establishes guilt beyond reasonable doubt."
+    ],
+    "e": "An arrest is an enforcement action; investigation is the broader factual and evidentiary process."
+  },
+  {
+    "q": "A witness statement supports one theory, but physical evidence points to another. What is the most professionally defensible response?",
+    "a": "Preserve both lines of information and evaluate them against corroborating evidence before choosing a conclusion.",
+    "w": [
+      "Discard the physical evidence because the witness spoke first.",
+      "Discard the witness statement because physical evidence is always conclusive.",
+      "Choose whichever theory produces the fastest arrest."
+    ],
+    "e": "A sound investigation tests competing explanations against available evidence."
+  },
+  {
+    "q": "Which statement is most consistent with an objective criminal investigator?",
+    "a": "The investigator allows facts and verified evidence to shape the theory, rather than forcing evidence to fit a preferred theory.",
+    "w": [
+      "The investigator selects a theory first and interprets every fact to support it.",
+      "The investigator treats suspicion as equivalent to proof.",
+      "The investigator avoids recording evidence that weakens the case."
+    ],
+    "e": "Objectivity requires that evidence drive the conclusion, not the other way around."
+  }
 ],
 
 "CDI 2":[
@@ -4308,41 +4407,49 @@ function shuffle(array){
 }
 
 
-function makeQuestions(subject){
-
-    const source=
-        bank[subject] ||
-        generatedQuestions(subject);
-
-    let result=[];
-
-    while(result.length<20){
-
-        const shuffled=shuffle(source);
-
-        for(const item of shuffled){
-
-            if(result.length>=20)break;
-
-            result.push({
-
-                q:item.q,
-                a:item.a,
-                choices:shuffle([
-                    item.a,
-                    ...item.w
-                ]),
-                e:item.e
-
-            });
-
-        }
-
-    }
-
-    return result;
-
+function buildTopicQuestions(subject){
+    const data=reviewerData[subject];
+    if(!data || !Array.isArray(data.topics)) return [];
+    const topics=data.topics;
+    const names=topics.map(t=>t[0]).filter(Boolean);
+    const out=[];
+    const clean=(html)=>String(html||"").replace(/<[^>]*>/g," ").replace(/&nbsp;/g," ").replace(/\s+/g," ").trim();
+    topics.forEach((topic)=>{
+        const name=topic[0]; const text=clean(topic[1]);
+        const others=shuffle(names.filter(n=>n!==name));
+        const ds=others.slice(0,3); while(ds.length<3) ds.push("None of the above");
+        out.push({q:`Which reviewer topic is most directly described by the following material: ${text.slice(0,360)}?`,a:name,w:ds,e:`This item is based directly on the ${subject} reviewer topic ${name}.`});
+        out.push({q:`An examinee is reviewing ${subject}. The issue specifically concerns ${name.toLowerCase()}. Which reviewer topic should be consulted?`,a:name,w:shuffle(names.filter(n=>n!==name)).slice(0,3),e:`The item targets the specific scope of ${name}.`});
+    });
+    return out;
 }
+
+function makeQuestions(subject){
+    const base=[...(bank[subject]||[]),...buildTopicQuestions(subject),...generatedQuestions(subject)];
+    const unique=[];
+    const seen=new Set();
+    for(const item of base){
+        const key=String(item.q).toLowerCase().replace(/\s+/g," ").trim();
+        if(!seen.has(key)){ seen.add(key); unique.push(item); }
+    }
+    const historyKey=`crimwiseUsedQuestions_v7_${subject}`;
+    let used=[];
+    try{ used=JSON.parse(localStorage.getItem(historyKey)||"[]"); }catch(e){ used=[]; }
+    const fresh=unique.filter(item=>!used.includes(item.q));
+    let pool=fresh.length>=20 ? fresh : unique;
+    pool=shuffle(pool);
+    const result=pool.slice(0,20).map(item=>({
+        q:item.q,
+        a:item.a,
+        choices:shuffle([item.a,...item.w.slice(0,3)]),
+        e:item.e
+    }));
+    const newUsed=[...new Set([...used,...result.map(x=>x.q)])];
+    const maxHistory=Math.max(20,unique.length);
+    try{ localStorage.setItem(historyKey,JSON.stringify(newUsed.slice(-maxHistory))); }catch(e){}
+    return result;
+}
+
 
 
 let quiz=[];
@@ -7073,6 +7180,66 @@ const pnpLaws=[
 ];
 
 
+
+/* =========================================================
+   EXPANDED PNP STUDY DATA — V6
+========================================================= */
+const rankDetails={
+"Police General":"Highest PNP rank in the current classification. Abbreviation: PGEN.",
+"Police Lieutenant General":"Three-star equivalent rank in the PNP classification. Abbreviation: PLTGEN.",
+"Police Major General":"Two-star equivalent rank in the PNP classification. Abbreviation: PMGEN.",
+"Police Brigadier General":"One-star equivalent rank in the PNP classification. Abbreviation: PBGEN.",
+"Police Colonel":"Senior commissioned rank below Police Brigadier General. Abbreviation: PCOL.",
+"Police Lieutenant Colonel":"Commissioned rank below Police Colonel. Abbreviation: PLTCOL.",
+"Police Major":"Commissioned rank below Police Lieutenant Colonel. Abbreviation: PMAJ.",
+"Police Captain":"Commissioned rank below Police Major. Abbreviation: PCAPT.",
+"Police Lieutenant":"Junior commissioned rank. Abbreviation: PLT.",
+"Police Executive Master Sergeant":"Highest listed non-commissioned rank in the current PNP classification. Abbreviation: PEMS.",
+"Police Chief Master Sergeant":"Senior non-commissioned rank below PEMS. Abbreviation: PCMS.",
+"Police Senior Master Sergeant":"Non-commissioned rank below PCMS. Abbreviation: PSMS.",
+"Police Master Sergeant":"Non-commissioned rank below PSMS. Abbreviation: PMSg.",
+"Police Staff Sergeant":"Non-commissioned rank below PMSg. Abbreviation: PSSg.",
+"Police Corporal":"Non-commissioned rank below PSSg. Abbreviation: PCpl.",
+"Patrolman/Patrolwoman":"Entry-level rank in the current PNP classification. Abbreviation: Pat."
+};
+
+const expandedHistoryData=[
+["Pre-Colonial Communities","Before Spanish rule, local communities maintained peace and order through customary rules, community leadership and local forms of enforcement. This period is useful for understanding that organized social control existed before modern police institutions."],
+["Spanish Period — Guardia Civil","Spanish colonial administration developed formal policing institutions, including the Guardia Civil and local authorities. Policing was closely connected with colonial administration and public-order control."],
+["1901 — Act No. 70 / Metropolitan Police Force of Manila","Act No. 70 is associated with the early organization of the Metropolitan Police Force of Manila under the American administration. It is important when studying the development of organized urban policing in Manila."],
+["1901 — Act No. 175 / Insular Constabulary","Act No. 175, enacted July 18, 1901, provided for the organization and government of an Insular Constabulary and inspection of municipal police. Its stated purpose included maintaining peace, law and order in the provinces."],
+["1901 — Act No. 183 / Manila Police Department","Act No. 183 provided for the organization of a police department for Manila. It belongs to the same early American-period development of organized police institutions."],
+["1901 — Act No. 255 / Philippine Constabulary + Section of Information","Act No. 255 amended Act No. 175 by changing the name of the Insular Constabulary to the Philippines Constabulary and directing the organization of a Section of Information. This is the key historical answer when asked about the origin of the PC information function."],
+["1966 — R.A. 4864 / Police Act of 1966","R.A. 4864 was a major professionalization measure. Review recruitment, training, promotion, discipline, qualifications and the Police Commission's role in setting standards for police service."],
+["1975 — P.D. 765 / Integrated National Police","P.D. 765 created the Integrated National Police by integrating local police forces and related local public-safety forces into a more coordinated national framework."],
+["1987 — Constitution, Article XVI Section 6","The Constitution provides for one police force that is national in scope and civilian in character, as provided by law. This constitutional framework is central to understanding the modern PNP."],
+["1990 — R.A. 6975 / DILG and PNP","R.A. 6975 established the Philippine National Police under a reorganized Department of the Interior and Local Government and set out the modern organizational framework of the PNP."],
+["1998 — R.A. 8551 / PNP Reform and Reorganization Act","R.A. 8551 further reformed and reorganized the PNP, emphasizing a community- and service-oriented police organization, accountability and professionalization."],
+["2019 — R.A. 11200 / PNP Rank Classification","R.A. 11200 modified the nomenclature and rank classification of the PNP. It is the key statute to review when memorizing the current rank titles and abbreviations."]
+];
+
+const expandedPnpLaws=[
+["Act No. 70","Early American-period legislation associated with the organization of the Metropolitan Police Force of Manila. Study it together with Act No. 183 to distinguish the earlier organization from the later city police organization."],
+["Act No. 175","July 18, 1901. Organized the Insular Constabulary and provided for inspection of municipal police. It is a foundational statute in the history of organized Philippine policing during the American period."],
+["Act No. 183","July 31, 1901. Provided for the organization of a police department for Manila. Do not confuse its subject with Act No. 175, which concerned the Insular Constabulary."],
+["Act No. 255","October 3, 1901. Amended Act No. 175, changed the name to the Philippines Constabulary, and provided for a Section of Information."],
+["R.A. 4864","Police Act of 1966. Important for police professionalization and standards relating to recruitment, training, promotion, discipline and qualifications."],
+["P.D. 765","Integrated National Police measure of the 1970s. Review the integration of local police forces and the transition toward a more integrated national police structure."],
+["R.A. 6975","Established the Philippine National Police and reorganized the police system under the DILG framework. Review its provisions on the PNP's organization and relationship with the DILG and NAPOLCOM."],
+["R.A. 8551","Known as the PNP Reform and Reorganization Act of 1998. Review its professionalization, community/service orientation, accountability and organizational reforms."],
+["R.A. 11200","Updated PNP rank nomenclature and classification. This is the primary reference for the current rank names used in CrimWise."],
+["1987 Constitution — Article XVI, Section 6","Provides the constitutional basis for one police force that is national in scope and civilian in character, as provided by law."],
+["R.A. 6713 — Code of Conduct and Ethical Standards","Important for public-officer ethics, accountability, professionalism, integrity and standards of conduct. Review its principles when studying police ethics and professional responsibility."],
+["R.A. 11032 — Ease of Doing Business and Efficient Government Service Delivery Act","Relevant to public-service delivery, processing standards and accountability in government offices. It can complement police-administration topics concerning efficient public service."],
+["R.A. 10173 — Data Privacy Act of 2012","Important for handling personal information. In criminology, connect it with lawful collection, processing, disclosure and protection of personal data."],
+["R.A. 10175 — Cybercrime Prevention Act of 2012","Covers specified cybercrime offenses and related procedural/enforcement mechanisms. Review the distinction between cybercrime offenses and ordinary crimes committed using computers or networks."],
+["R.A. 9165 — Comprehensive Dangerous Drugs Act of 2002","Major special penal law on dangerous drugs, prohibited acts, enforcement and procedures. Review the specific statutory elements rather than relying only on common descriptions."],
+["R.A. 9208, as amended — Anti-Trafficking in Persons Act","Addresses trafficking in persons and protective/enforcement mechanisms. Review acts constituting trafficking, qualified circumstances and the distinction between trafficking and related offenses."],
+["R.A. 9995 — Anti-Photo and Video Voyeurism Act","Penalizes specified acts involving photo or video recording and distribution of private sexual acts or similar protected material without consent, subject to statutory elements."],
+["R.A. 9372, as amended by later legislation","Historical anti-terrorism legislation that was subsequently replaced by the Anti-Terrorism Act framework. For exams, always identify which current statute is being asked about before answering."],
+["R.A. 11479 — Anti-Terrorism Act of 2020","Current major statutory framework on terrorism-related offenses, investigation and enforcement, subject to constitutional and judicial safeguards. Study exact statutory definitions and safeguards rather than relying on broad labels."]
+];
+
 function renderPNP(){
 
     document.getElementById("rankGrid").innerHTML=
@@ -7089,7 +7256,7 @@ function renderPNP(){
                 </b>
 
                 <span><b>Abbreviation:</b> ${rank[1]}</span>
-                <small style="display:block;margin-top:6px;color:#64748b">PNP Rank Classification</small>
+                <p style="margin-top:9px;line-height:1.55">${rankDetails[rank[0]]||"Current PNP rank classification entry."}</p>
 
             </div>
 
@@ -7098,7 +7265,7 @@ function renderPNP(){
 
 
     document.getElementById("historyList").innerHTML=
-        historyData.map(
+        expandedHistoryData.map(
             h=>`
 
             <div
@@ -7140,7 +7307,7 @@ function renderPNP(){
 
 
     document.getElementById("pnpLawsList").innerHTML=
-        pnpLaws.map(
+        expandedPnpLaws.map(
             law=>`
 
             <div class="law pnp-item">
