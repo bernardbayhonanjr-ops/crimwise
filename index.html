@@ -82,20 +82,47 @@ header p{
 }
 
 .menu-user{
-    padding:18px;
+    padding:15px 16px;
     background:#eff6ff;
     border-bottom:1px solid #dbeafe;
+}
+
+.menu-user-content{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.menu-profile-picture{
+    width:52px;
+    height:52px;
+    flex:0 0 52px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #ffffff;
+    box-shadow:0 2px 8px rgba(15,23,42,.16);
+    background:#dbeafe;
+}
+
+.menu-user-info{
+    min-width:0;
 }
 
 .menu-user b{
     display:block;
     color:#1e40af;
     font-size:16px;
+    line-height:1.25;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 .menu-user span{
+    display:block;
     font-size:13px;
     color:#64748b;
+    margin-top:3px;
 }
 
 .menu button{
@@ -1042,9 +1069,23 @@ Your CrimWise login email is generated from your username during registration.
 
 <div class="menu-user">
 
+<div class="menu-user-content">
+
+<img
+id="menuProfilePicture"
+class="menu-profile-picture"
+alt="Profile picture"
+>
+
+<div class="menu-user-info">
+
 <b id="menuUserName">Student</b>
 
 <span id="menuStudentNumber">Student Number</span>
+
+</div>
+
+</div>
 
 </div>
 
@@ -2188,7 +2229,7 @@ Close Credits
 
 <footer>
 
-© 2026 CrimWise v6 |
+© 2026 CrimWise v8 |
 Created for Criminology Students
 
 </footer>
@@ -2248,6 +2289,7 @@ function loadCurrentUser(){
     document.getElementById("welcomeMessage").textContent=`Welcome back, ${user.name||"Student"}! Choose a tool below to start learning.`;
     document.getElementById("settingsUsername").textContent=user.username||"-";
     document.getElementById("settingsStudentNumber").textContent=user.studentNumber||"-";
+    updateMenuProfilePicture();
     if(typeof loadProfile === "function") loadProfile();
     return true;
 }
@@ -3821,6 +3863,17 @@ function createGenericReviewer(subject){
 
 }
 
+/* =========================================================
+   PHASE 2 — EXPANDED REVIEWER LAYER
+========================================================= */
+const phase2ReviewerExpansion={"CDI 1":[["Expanded Study Guide","Core Concepts, definitions, principles, distinctions, investigative application, documentation, and ethical/legal safeguards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"CDI 2":[["Expanded Study Guide","Core Concepts, definitions, principles, distinctions, investigative application, documentation, and ethical/legal safeguards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"CDI 3":[["Expanded Study Guide","Core Concepts, definitions, principles, distinctions, investigative application, documentation, and ethical/legal safeguards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"CDI 4":[["Expanded Study Guide","Core Concepts, definitions, principles, distinctions, investigative application, documentation, and ethical/legal safeguards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"CDI 5":[["Expanded Study Guide","Core Concepts, definitions, principles, distinctions, investigative application, documentation, and ethical/legal safeguards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"CDI 6":[["Expanded Study Guide","Core Concepts, definitions, principles, distinctions, investigative application, documentation, and ethical/legal safeguards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"CDI 7":[["Expanded Study Guide","Core Concepts, definitions, principles, distinctions, investigative application, documentation, and ethical/legal safeguards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"CDI 8":[["Expanded Study Guide","Core Concepts, definitions, principles, distinctions, investigative application, documentation, and ethical/legal safeguards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"CDI 9":[["Expanded Study Guide","Core Concepts, definitions, principles, distinctions, investigative application, documentation, and ethical/legal safeguards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Criminal Law 1":[["Expanded Study Guide","elements of offenses, stages or participation where applicable, circumstances affecting liability, penalties, and distinctions between general and special penal laws."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Criminal Law 2":[["Expanded Study Guide","elements of offenses, stages or participation where applicable, circumstances affecting liability, penalties, and distinctions between general and special penal laws."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Criminal Law 3":[["Expanded Study Guide","elements of offenses, stages or participation where applicable, circumstances affecting liability, penalties, and distinctions between general and special penal laws."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Criminal Procedure":[["Expanded Study Guide","jurisdiction, initiation of cases, arrest, investigation, pleadings, rights of the accused, trial-related procedures, and remedies under the applicable rules."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Evidence":[["Expanded Study Guide","relevance, admissibility, authentication, testimonial and documentary evidence, direct and circumstantial evidence, hearsay and exceptions, burdens and standards of proof."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Constitutional Law":[["Expanded Study Guide","constitutional supremacy, Bill of Rights, due process, equal protection, separation of powers, checks and balances, and constitutional limitations on government."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Theories of Crime Causation":[["Expanded Study Guide","definitions, major theories or concepts, scope, applications, research or practice issues, and important distinctions related to Theories of Crime Causation."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Introduction to Criminology":[["Expanded Study Guide","definitions, major theories or concepts, scope, applications, research or practice issues, and important distinctions related to Introduction to Criminology."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Juvenile Delinquency":[["Expanded Study Guide","definitions, major theories or concepts, scope, applications, research or practice issues, and important distinctions related to Juvenile Delinquency."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Human Behavior":[["Expanded Study Guide","definitions, major theories or concepts, scope, applications, research or practice issues, and important distinctions related to Human Behavior."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Victimology":[["Expanded Study Guide","definitions, major theories or concepts, scope, applications, research or practice issues, and important distinctions related to Victimology."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Criminological Research":[["Expanded Study Guide","definitions, major theories or concepts, scope, applications, research or practice issues, and important distinctions related to Criminological Research."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Forensic Science":[["Expanded Study Guide","scientific principles, evidence preservation, examination methods, interpretation, quality assurance, limitations, and reporting."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Forensic Chemistry":[["Expanded Study Guide","scientific principles, evidence preservation, examination methods, interpretation, quality assurance, limitations, and reporting."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Forensic Ballistics":[["Expanded Study Guide","scientific principles, evidence preservation, examination methods, interpretation, quality assurance, limitations, and reporting."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Forensic Photography":[["Expanded Study Guide","scientific principles, evidence preservation, examination methods, interpretation, quality assurance, limitations, and reporting."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Dactyloscopy":[["Expanded Study Guide","scientific principles, evidence preservation, examination methods, interpretation, quality assurance, limitations, and reporting."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Questioned Documents":[["Expanded Study Guide","scientific principles, evidence preservation, examination methods, interpretation, quality assurance, limitations, and reporting."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Forensic Medicine":[["Expanded Study Guide","scientific principles, evidence preservation, examination methods, interpretation, quality assurance, limitations, and reporting."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Forensic Toxicology":[["Expanded Study Guide","scientific principles, evidence preservation, examination methods, interpretation, quality assurance, limitations, and reporting."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Police Administration":[["Expanded Study Guide","organization, administration, operations, intelligence, community relations, supervision, accountability, and lawful police practice."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Police Organization":[["Expanded Study Guide","organization, administration, operations, intelligence, community relations, supervision, accountability, and lawful police practice."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Patrol Operations":[["Expanded Study Guide","organization, administration, operations, intelligence, community relations, supervision, accountability, and lawful police practice."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Police Intelligence":[["Expanded Study Guide","organization, administration, operations, intelligence, community relations, supervision, accountability, and lawful police practice."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Community Relations":[["Expanded Study Guide","organization, administration, operations, intelligence, community relations, supervision, accountability, and lawful police practice."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Traffic Management":[["Expanded Study Guide","organization, administration, operations, intelligence, community relations, supervision, accountability, and lawful police practice."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Correctional Administration":[["Expanded Study Guide","custody, classification, security, rehabilitation, institutional and community-based programs, supervision, reintegration, and human-rights standards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Institutional Corrections":[["Expanded Study Guide","custody, classification, security, rehabilitation, institutional and community-based programs, supervision, reintegration, and human-rights standards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Non-Institutional Corrections":[["Expanded Study Guide","custody, classification, security, rehabilitation, institutional and community-based programs, supervision, reintegration, and human-rights standards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Therapeutic Community":[["Expanded Study Guide","custody, classification, security, rehabilitation, institutional and community-based programs, supervision, reintegration, and human-rights standards."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Cybercrime":[["Expanded Study Guide","digital systems, cyber offenses, digital evidence, preservation, forensic acquisition, attribution, cybersecurity principles, and incident response."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Digital Forensics":[["Expanded Study Guide","digital systems, cyber offenses, digital evidence, preservation, forensic acquisition, attribution, cybersecurity principles, and incident response."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]],"Cybersecurity":[["Expanded Study Guide","digital systems, cyber offenses, digital evidence, preservation, forensic acquisition, attribution, cybersecurity principles, and incident response."],["Key Concepts","Review the subject by identifying its core definitions, purpose, scope, principles, and the differences between closely related terms."],["Application and Analysis","Apply the concepts to realistic situations. Identify the governing principle, relevant facts, possible limitations, and the most appropriate response."],["Commonly Confused Ideas","Compare terms that look similar but differ in purpose, elements, authority, procedure, or effect. Avoid relying on keywords alone."],["Study Checklist","Before an exam, review definitions, elements, classifications, exceptions, procedures, examples, and important distinctions. When a rule is involved, study its source and exact wording."]]};
+Object.keys(phase2ReviewerExpansion).forEach(subject=>{
+ const data=reviewerData[subject]||(reviewerData[subject]={intro:"Expanded reviewer",topics:[]});
+ const topics=data.topics||[]; const seen=new Set(topics.map(t=>String(t[0]).toLowerCase()));
+ phase2ReviewerExpansion[subject].forEach(t=>{if(!seen.has(t[0].toLowerCase())) topics.push([t[0],`<p>${t[1]}</p>`]);});
+ data.topics=topics;
+});
+
 
 /* =========================================================
    RENDER REVIEWERS
@@ -4410,46 +4463,145 @@ function shuffle(array){
 function buildTopicQuestions(subject){
     const data=reviewerData[subject];
     if(!data || !Array.isArray(data.topics)) return [];
-    const topics=data.topics;
-    const names=topics.map(t=>t[0]).filter(Boolean);
+    const topics=data.topics.filter(t=>t&&t[0]&&t[1]);
+    const names=topics.map(t=>String(t[0]));
+    const clean=(html)=>String(html||"")
+        .replace(/<br\s*\/?>/gi," ")
+        .replace(/<\/p>/gi," ")
+        .replace(/<[^>]*>/g," ")
+        .replace(/&nbsp;/g," ")
+        .replace(/&amp;/g,"&")
+        .replace(/\s+/g," ").trim();
     const out=[];
-    const clean=(html)=>String(html||"").replace(/<[^>]*>/g," ").replace(/&nbsp;/g," ").replace(/\s+/g," ").trim();
-    topics.forEach((topic)=>{
-        const name=topic[0]; const text=clean(topic[1]);
+
+    topics.forEach((topic,idx)=>{
+        const name=String(topic[0]);
+        const text=clean(topic[1]);
+        const first=text.split(/(?<=[.!?])\s+/).filter(Boolean).slice(0,2).join(" ").trim();
+        const summary=(first||text).slice(0,260);
         const others=shuffle(names.filter(n=>n!==name));
-        const ds=others.slice(0,3); while(ds.length<3) ds.push("None of the above");
-        out.push({q:`Which reviewer topic is most directly described by the following material: ${text.slice(0,360)}?`,a:name,w:ds,e:`This item is based directly on the ${subject} reviewer topic ${name}.`});
-        out.push({q:`An examinee is reviewing ${subject}. The issue specifically concerns ${name.toLowerCase()}. Which reviewer topic should be consulted?`,a:name,w:shuffle(names.filter(n=>n!==name)).slice(0,3),e:`The item targets the specific scope of ${name}.`});
+
+        if(summary){
+            out.push({
+                subject,
+                topic:name,
+                q:`Which statement is MOST consistent with the CrimWise reviewer discussion of "${name}"?`,
+                a:summary,
+                w:[
+                    `It is primarily concerned with ${others[0]||"a different investigative concept"}.`,
+                    `It should be understood only through ${others[1]||"an unrelated topic"}.`,
+                    `It has no practical relevance once ${others[2]||"another topic"} is identified.`
+                ],
+                e:`The answer is taken from the reviewer material under "${name}". Read the topic together with its explanation rather than relying only on the topic title.`
+            });
+        }
+
+        const related=shuffle(names.filter(n=>n!==name)).slice(0,3);
+        if(related.length>=3){
+            out.push({
+                subject,
+                topic:name,
+                q:`Which reviewer topic should an examinee study when the question specifically tests "${name}"?`,
+                a:name,
+                w:related,
+                e:`This item targets the specific reviewer topic "${name}". The other choices are different topics from the same subject and are included to test precise topic recognition.`
+            });
+        }
     });
     return out;
 }
 
-function makeQuestions(subject){
-    const base=[...(bank[subject]||[]),...buildTopicQuestions(subject),...generatedQuestions(subject)];
-    const unique=[];
-    const seen=new Set();
-    for(const item of base){
-        const key=String(item.q).toLowerCase().replace(/\s+/g," ").trim();
-        if(!seen.has(key)){ seen.add(key); unique.push(item); }
-    }
-    const historyKey=`crimwiseUsedQuestions_v7_${subject}`;
-    let used=[];
-    try{ used=JSON.parse(localStorage.getItem(historyKey)||"[]"); }catch(e){ used=[]; }
-    const fresh=unique.filter(item=>!used.includes(item.q));
-    let pool=fresh.length>=20 ? fresh : unique;
-    pool=shuffle(pool);
-    const result=pool.slice(0,20).map(item=>({
-        q:item.q,
-        a:item.a,
-        choices:shuffle([item.a,...item.w.slice(0,3)]),
-        e:item.e
-    }));
-    const newUsed=[...new Set([...used,...result.map(x=>x.q)])];
-    const maxHistory=Math.max(20,unique.length);
-    try{ localStorage.setItem(historyKey,JSON.stringify(newUsed.slice(-maxHistory))); }catch(e){}
-    return result;
+function questionKey(item){
+    return String(item.q||"").toLowerCase().replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim();
 }
 
+function inferTopic(item,subject){
+    if(item.topic) return item.topic;
+    const data=reviewerData[subject];
+    if(!data || !Array.isArray(data.topics)) return "General";
+    const hay=String(item.q||"")+" "+String(item.a||"")+" "+String(item.e||"");
+    let best="General", bestScore=0;
+    data.topics.forEach(t=>{
+        const name=String(t[0]);
+        const words=name.toLowerCase().split(/[^a-z0-9]+/).filter(w=>w.length>=4);
+        let score=0;
+        words.forEach(w=>{ if(new RegExp(`\\b${w}\\b`,`i`).test(hay)) score++; });
+        if(score>bestScore){bestScore=score; best=name;}
+    });
+    return best;
+}
+
+function makeQuestions(subject){
+    const topicGenerated=buildTopicQuestions(subject);
+    const source=[...(bank[subject]||[]),...topicGenerated]
+        .map(item=>({...item,subject,topic:inferTopic(item,subject)}));
+
+    const unique=[];
+    const seen=new Set();
+    for(const item of source){
+        const key=questionKey(item);
+        if(key && !seen.has(key)){seen.add(key);unique.push(item);}
+    }
+
+    const historyKey=`crimwiseUsedQuestions_v8_${subject}`;
+    let used=[];
+    try{used=JSON.parse(localStorage.getItem(historyKey)||"[]");}catch(e){used=[];}
+
+    const fresh=unique.filter(item=>!used.includes(questionKey(item)));
+    let pool=fresh.length>=20?fresh:unique;
+
+    // Balance the quiz across the subject's actual reviewer topics.
+    const groups={};
+    pool.forEach(item=>{
+        const key=item.topic||"General";
+        (groups[key]||(groups[key]=[])).push(item);
+    });
+    Object.values(groups).forEach(arr=>shuffle(arr));
+
+    const selected=[];
+    const selectedKeys=new Set();
+    const groupNames=shuffle(Object.keys(groups));
+    let cursor=0;
+    while(selected.length<20 && groupNames.length){
+        let added=false;
+        for(const g of groupNames){
+            const arr=groups[g]||[];
+            while(arr.length){
+                const candidate=arr.shift();
+                const k=questionKey(candidate);
+                if(!selectedKeys.has(k)){
+                    selected.push(candidate); selectedKeys.add(k); added=true; break;
+                }
+            }
+            if(selected.length>=20) break;
+        }
+        if(!added) break;
+        cursor++;
+        if(cursor>unique.length+2) break;
+    }
+
+    // Fill any remaining slots without duplicates.
+    if(selected.length<20){
+        for(const item of shuffle(pool.slice())){
+            const k=questionKey(item);
+            if(!selectedKeys.has(k)){selected.push(item);selectedKeys.add(k);}
+            if(selected.length>=20)break;
+        }
+    }
+
+    const result=shuffle(selected.slice(0,20)).map(item=>({
+        q:item.q,
+        a:item.a,
+        choices:shuffle([item.a,...(item.w||[]).slice(0,3)]),
+        e:item.e||"Review the corresponding topic in the CrimWise reviewer.",
+        topic:item.topic||"General"
+    }));
+
+    const newUsed=[...new Set([...used,...result.map(x=>questionKey(x))])];
+    const maxHistory=Math.max(20,unique.length);
+    try{localStorage.setItem(historyKey,JSON.stringify(newUsed.slice(-maxHistory)));}catch(e){}
+    return result;
+}
 
 
 let quiz=[];
@@ -7660,11 +7812,24 @@ function loadProfile(){
     displayProfileResult(user);
     loadProfilePicture();
 }
-function loadProfilePicture(){
-    const saved=localStorage.getItem("crimwiseProfilePicture");
-    const img=document.getElementById("profilePicturePreview");
-    if(saved&&img){img.src=saved;img.style.display="block";}
+const DEFAULT_OWNER_PROFILE_PICTURE = "data:image/jpeg;base64,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";
+
+function getProfilePicture(){
+    return localStorage.getItem("crimwiseProfilePicture") || DEFAULT_OWNER_PROFILE_PICTURE;
 }
+
+function updateMenuProfilePicture(){
+    const menuImg=document.getElementById("menuProfilePicture");
+    if(menuImg) menuImg.src=getProfilePicture();
+}
+
+function loadProfilePicture(){
+    const saved=getProfilePicture();
+    const img=document.getElementById("profilePicturePreview");
+    if(img){img.src=saved;img.style.display="block";}
+    updateMenuProfilePicture();
+}
+
 function handleProfilePicture(event){
     const file=event.target.files&&event.target.files[0];
     if(!file)return;
@@ -7674,17 +7839,19 @@ function handleProfilePicture(event){
     reader.onload=()=>{
         localStorage.setItem("crimwiseProfilePicture",reader.result);
         const img=document.getElementById("profilePicturePreview");
-        img.src=reader.result;
-        img.style.display="block";
+        if(img){img.src=reader.result;img.style.display="block";}
+        updateMenuProfilePicture();
     };
     reader.readAsDataURL(file);
 }
+
 function removeProfilePicture(){
     localStorage.removeItem("crimwiseProfilePicture");
     const img=document.getElementById("profilePicturePreview");
     const input=document.getElementById("profilePictureInput");
-    if(img){img.removeAttribute("src");img.style.display="none";}
+    if(img){img.src=DEFAULT_OWNER_PROFILE_PICTURE;img.style.display="block";}
     if(input)input.value="";
+    updateMenuProfilePicture();
 }
 
 /* =========================================================
